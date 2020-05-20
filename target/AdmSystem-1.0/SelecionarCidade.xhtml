@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Seleção de Cidades</title>
+    </h:head>
+    <h:body>
+        <h:form id="frm">
+            <div style="margin-top: 5px; margin-bottom: 20px;">
+                <p:inputText id="nome" size="40" value="#{SelecionarCidadeBean.nome}" placeholder="Digite o nome da Cidade ..."/>
+                <p:commandButton value="Pesquisar" action="#{SelecionarCidadeBean.pesquisar}" update="@form"/>
+            </div>
+            <p:dataTable paginatorAlwaysVisible="false" value="#{SelecionarCidadeBean.cidades}"
+                         var="cidade" paginator="true" rows="9"
+                         paginatorPosition="bottom" emptyMessage="Nenhuma cidade encontrada...">
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Id"/>
+                    </f:facet>
+                    <h:outputText value="#{cidade.idCidade}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Nome"/>
+                    </f:facet>
+                    <h:outputText value="#{cidade.nomeCidade}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="UF"/>
+                    </f:facet>
+                    <h:outputText value="#{cidade.estado.sigla}"/>
+                </p:column>
+                <p:column style="width: 30px; text-align: center;">
+                    <p:commandButton icon="ui-icon-check" 
+                   action="#{SelecionarCidadeBean.selecionarCidade(cidade)}" process="@this" title="Selecionar"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </h:body>
+</html>

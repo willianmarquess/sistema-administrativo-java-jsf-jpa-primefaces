@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+        <h:outputStylesheet name="/resources/css/font-awesome.css"/>
+        <h:outputStylesheet library="css" name="estilo.css" />
+        <script>
+            PrimeFaces.locales['pt'] = {
+                closeText: 'Fechar',
+                prevText: 'Anterior',
+                nextText: 'Próximo',
+                currentText: 'Começo',
+                monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+                monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+                dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+                dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
+                weekHeader: 'Semana',
+                firstDay: 1,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: '',
+                timeOnlyTitle: 'Só Horas',
+                timeText: 'Tempo',
+                hourText: 'Hora',
+                minuteText: 'Minuto',
+                secondText: 'Segundo',
+                currentDate: 'Data Atual',
+                ampm: false,
+                month: 'Mês',
+                week: 'Semana',
+                day: 'Dia',
+                allDayText: 'Todo Dia'
+            };
+
+            function mascara(o, f) {
+                v_obj = o;
+                v_fun = f;
+                setTimeout("execmascara()", 1);
+            }
+            function execmascara() {
+                v_obj.value = v_fun(v_obj.value);
+            }
+            function valor(v) {
+                v = v.replace(/\D/g, "");
+                v = v.replace(/[0-9]{15}/, "invÃ¡lido");
+                v = v.replace(/(\d{1})(\d{11})$/, "$1.$2"); // coloca ponto antes dos
+                // Ãºltimos 11 digitos
+                v = v.replace(/(\d{1})(\d{8})$/, "$1.$2"); // coloca ponto antes dos
+                // Ãºltimos 8 digitos
+                v = v.replace(/(\d{1})(\d{5})$/, "$1.$2"); // coloca ponto antes dos
+                // Ãºltimos 5 digitos
+                v = v.replace(/(\d{1})(\d{1,2})$/, "$1,$2"); // coloca virgula antes dos
+                // Ãºltimos 2 digitos
+                return v;
+            }
+
+            jQuery(document).ready(function (jQuery) {
+                // Chamada da funcao upperText(); ao carregar a pagina
+                upperText();
+            });
+            // Funcao que faz o texto ficar em uppercase
+            function upperText() {
+                // Para tratar o colar
+                jQuery(".up").bind('paste', function (e) {
+                    var el = jQuery(this);
+                    setTimeout(function () {
+                        var text = jQuery(el).val();
+                        el.val(text.toUpperCase());
+                    }, 100);
+                });
+                // Para tratar quando é digitado
+                jQuery(".up").keypress(function () {
+                    var el = jQuery(this);
+                    setTimeout(function () {
+                        var text = jQuery(el).val();
+                        el.val(text.toUpperCase());
+                    }, 100);
+                });
+            }
+        </script>
+        <title>Sistema Administrativo</title>
+    </h:head>
+    <h:body>
+        <p:layout collapseTitle="Minimizar" expandTitle="Expandir" fullPage="true">
+
+
+            <p:layoutUnit position="north" size="60" resizable="true">
+                <h:link class="logo">Sistema <span class="lite">Administrativo</span></h:link>
+            </p:layoutUnit>
+
+            <p:layoutUnit class="centro" position="south" size="50" resizable="true">
+
+                <span class="meio">Sistema Administrativo</span>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="west" size="200" header="Menu" resizable="true" collapsible="true">
+                <h:form>
+                    <p:slideMenu backLabel="Voltar" style="width:180px;">
+                        <p:menuitem icon="ui-icon-home" value="Início" action="/index?faces-redirect=true"/>
+                        <p:submenu label="Cadastros" icon="ui-icon-disk">
+                            <p:menuitem value="Usuário" action="/cadastrarusuario?faces-redirect=true"/>
+                            <p:menuitem value="Pessoa" action="/cadastrarpessoafisica?faces-redirect=true"/>
+                            <p:menuitem value="Cliente" action="/CadastrarCliente?faces-redirect=true"/>
+                            <p:menuitem value="Funcionário" action="/CadastrarFuncionario?faces-redirect=true"/>
+                            <p:menuitem value="Fornecedor" action="/CadastrarFornecedor?faces-redirect=true"/>
+                            <p:menuitem value="Empresa" action="/CadastrarEmpresa?faces-redirect=true"/>
+                            <p:menuitem value="Produto" action="/CadastrarProduto?faces-redirect=true"/>
+                            <p:menuitem value="Estoque" action="/CadastrarEstoque?faces-redirect=true"/>
+                            <p:menuitem value="Venda" action="/CadastrarVenda?faces-redirect=true"/>
+                        </p:submenu>
+                        <p:separator />
+                        <p:submenu label="Consultas" icon="ui-icon-search">
+                            <p:menuitem value="Usuários"  action="/listarusuario?faces-redirect=true" />
+                            <p:menuitem value="Pessoas"  action="/ListarPessoasFisicas?faces-redirect=true" />
+                            <p:menuitem value="Clientes"  action="/ListarCliente?faces-redirect=true" />
+                            <p:menuitem value="Funcionários"  action="/ListarFuncionario?faces-redirect=true" />
+                            <p:menuitem value="Fornecedores"  action="/ListarFornecedor?faces-redirect=true" />
+                            <p:menuitem value="Empresas"  action="/ListarEmpresa?faces-redirect=true" />
+                            <p:menuitem value="Produtos"  action="/ListarProduto?faces-redirect=true" />
+                             <p:menuitem value="Estoque"  action="/ListarEstoque?faces-redirect=true" />
+                        </p:submenu>
+                        <p:separator />
+                        <p:menuitem icon="ui-icon-power" value="Deslogar" action="#{usuarioctr.logout()}"/>
+                    </p:slideMenu>
+
+                </h:form>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="center">
+                <ui:insert name="centro">
+                    O que estiver aqui será substituido!
+                </ui:insert>
+            </p:layoutUnit>
+
+        </p:layout>
+
+    </h:body>
+
+</html>

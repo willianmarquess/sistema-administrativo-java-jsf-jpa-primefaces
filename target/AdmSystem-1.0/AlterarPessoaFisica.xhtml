@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:decorate template="/template/newTemplate.xhtml"
+             xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             xmlns:p="http://primefaces.org/ui">
+    <ui:define name="centro">
+        <f:metadata>
+            <f:viewParam name="id" value="#{AlterarPessoaFisicaBean.pessoa.idPessoa}"/>
+            <f:viewAction action="#{AlterarPessoaFisicaBean.restaurar}" />
+        </f:metadata>
+        <h:form id="frm">
+            <p:messages showDetail="false" showSummary="true" closable="true" autoUpdate="true" />
+            <p:panelGrid columns="2">
+                <p:outputLabel value="Nome :" />
+                    <p:inputText size="20" required="true" requiredMessage="Digite o campo NOME corretamente"
+                                 maxlength="100" placeholder="Digite o NOME completo"    value="#{AlterarPessoaFisicaBean.pessoa.nomePessoaFisica}"/>
+
+
+                    <p:outputLabel value="RG :" />
+                    <p:inputText size="20" required="true" requiredMessage="Digite o campo RG corretamente"
+                                 value="#{AlterarPessoaFisicaBean.pessoa.rgPessoaFisica}"
+                                 />
+                    <p:outputLabel value="CPF :" />
+                    <p:inputMask size="15" required="true" requiredMessage="Digite o campo CPF corretamente"
+                                 value="#{AlterarPessoaFisicaBean.pessoa.cpfPessoaFisica}"
+                                  mask="999.999.999-99" />
+                    <p:outputLabel value="Data de Nascimento :" />
+                    <p:calendar mask="true" locale="pt" showButtonPanel="true" navigator="true" required="true" requiredMessage="Digite o campo DATA NASCIMENTO corretamente"
+                                value="#{AlterarPessoaFisicaBean.pessoa.dataNascPessoaFisica}">
+                    </p:calendar>
+                    
+                    <p:outputLabel value="Cidade" for="cidade"/>
+                    <h:panelGroup>
+                        <p:inputText required="true" requiredMessage="Selecione uma CIDADE" id="cidade" value="#{AlterarPessoaFisicaBean.pessoa.cidadePessoa}"
+                                     readonly="#{facesContext.currentPhaseId.name eq 'RENDER_RESPONSE'}"/>
+                        <p:commandButton icon="ui-icon-search" title="Pesquisar"
+                                         action="#{SelecionarCidadeBean.abrirDialogo()}" process="@this" update="@none">
+                            <p:ajax event="dialogReturn" listener="#{AlterarPessoaFisicaBean.cidadeSelecionada}" process="@this" update="cidade"/>
+                        </p:commandButton>
+                    </h:panelGroup>
+                   
+            </p:panelGrid>
+        </h:form>
+    </ui:define>
+</ui:decorate>

@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:decorate template="/template/newTemplate.xhtml"
+             xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             xmlns:p="http://primefaces.org/ui">
+    <ui:define name="centro">
+        <h:form  id="frm" >
+            <p:messages autoUpdate="true" closable="true"/>
+            <p:growl id="growl" showDetail="true" sticky="true" />  
+            <p:breadCrumb>
+                <p:menuitem value="Home" url="index.xhtml" />
+                <p:menuitem value="Cadastros" url="#" />
+                <p:menuitem value="Produto" url="#" />
+            </p:breadCrumb>  <br/>
+            <p:panelGrid  columns="2">
+
+                <p:outputLabel value="Código :" />
+                <p:inputText size="20" required="true" requiredMessage="Digite o campo CÓDIGO corretamente"
+                           styleClass="up" value="#{CadastrarProdutoBean.produto.codigoProduto}"
+                             />
+
+                <p:outputLabel value="Nome :" />
+                <p:inputText size="20" required="true" requiredMessage="Digite o campo NOME corretamente"
+                       styleClass="up" maxlength="100" value="#{CadastrarProdutoBean.produto.nomeProduto}"/>
+
+                <p:outputLabel value="Marca :" />
+                <p:inputText size="20" styleClass="up" value="#{CadastrarProdutoBean.produto.marcaProduto}"
+                             />
+
+
+                <p:outputLabel value="Preço Uni/Unidade Medida:" />
+                <p:inputText  value="#{CadastrarProdutoBean.preço}"
+                 maxlength="11" size="20" required="true" requiredMessage="Informe o Preço unitário" onkeypress="mascara(this, valor);" />
+
+                <p:commandButton value="Salvar" validateClient="true" actionListener="#{CadastrarProdutoBean.salvar()}" 
+                                 update="@form" icon="ui-icon-disk">
+                    <p:confirm header="Confirmação" message="Deseja salvar os dados digitados ?" icon="ui-icon-alert" />
+                </p:commandButton>
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
+
+            </p:panelGrid>
+        </h:form>
+    </ui:define>
+</ui:decorate>

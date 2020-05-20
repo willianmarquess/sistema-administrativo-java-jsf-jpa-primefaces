@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Meu Sistema</title>
+        <style type="text/css">
+            body {background-color: #eeeeee; font-size: 12px}
+        </style> 
+    </h:head>
+    <h:body>
+        <div align="center">
+            <p:layout style="min-width:920px;max-width:1120px;min-height:650px">  
+                <p:layoutUnit position="north" size="100">  
+                </p:layoutUnit>  
+                <p:layoutUnit position="center"> 
+                    <ui:insert name="menu">
+                        <h:form>
+                            <p:menubar style="margin-top: 5px; margin-bottom: 20px">
+                                <p:menuitem icon="ui-icon-home" value="Início" action="/index?faces-redirect=true"/>
+                                <p:submenu label="Cadastros">
+                                    <p:menuitem value="Usuário" action="/cadastrarusuario?faces-redirect=true"/>
+                                    <p:menuitem value="Pessoa" action="/cadastrarpessoafisica?faces-redirect=true">
+                                    </p:menuitem>
+                                </p:submenu>
+                                <p:submenu label="Consultas">
+                                    <p:menuitem value="Usuários"
+                                                action="/listarusuario?faces-redirect=true" />
+                                </p:submenu>
+                                <p:menuitem value="Deslogar" action="#{usuarioctr.logout()}"/>
+                            </p:menubar>
+                        </h:form>
+                    </ui:insert>
+
+                    <ui:insert name="centro">
+                        O que estiver aqui será substituido!
+                    </ui:insert>
+                </p:layoutUnit>  
+                <p:layoutUnit position="south" size="100">
+                    <h3>Sistema Administrativo - Willian Marques</h3>
+                </p:layoutUnit>
+            </p:layout>  
+        </div>
+    </h:body>
+</html>

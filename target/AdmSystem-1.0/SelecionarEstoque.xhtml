@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Seleção de Produtos</title>
+        <script>
+            jQuery(document).ready(function (jQuery) {
+                // Chamada da funcao upperText(); ao carregar a pagina
+                upperText();
+            });
+            // Funcao que faz o texto ficar em uppercase
+            function upperText() {
+                // Para tratar o colar
+                jQuery(".up").bind('paste', function (e) {
+                    var el = jQuery(this);
+                    setTimeout(function () {
+                        var text = jQuery(el).val();
+                        el.val(text.toUpperCase());
+                    }, 100);
+                });
+                // Para tratar quando é digitado
+                jQuery(".up").keypress(function () {
+                    var el = jQuery(this);
+                    setTimeout(function () {
+                        var text = jQuery(el).val();
+                        el.val(text.toUpperCase());
+                    }, 100);
+                });
+            }
+        </script>
+    </h:head>
+    <h:body>
+        <h:form id="frm">
+            <div style="margin-top: 5px; margin-bottom: 20px;">
+                <p:inputText id="campo" size="40" styleClass="up" value="#{SelecionarEstoqueBean.campo}" placeholder="Digite o parâmetro ..."/>
+                <p:commandButton value="Pesquisar" action="#{SelecionarEstoqueBean.pesquisar()}" update="@form"/>
+                <br/><br/>
+                <p:fieldset legend="Parâmetros">
+                    <p:selectOneRadio id="parametro" value="#{SelecionarEstoqueBean.parametro}">    
+                    <f:selectItem itemLabel="Todas" itemValue="todas"/>    
+                    <f:selectItem itemLabel="Código" itemValue="codigoproduto"/>
+                    <f:selectItem itemLabel="Nome" itemValue="nomeproduto"/>
+                    </p:selectOneRadio>
+                </p:fieldset>
+            </div>
+            <p:dataTable paginatorAlwaysVisible="false" value="#{SelecionarEstoqueBean.estoques}"
+                         var="produto" paginator="true" rows="9"
+                         paginatorPosition="bottom" emptyMessage="Nenhum produto encontrado...">
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Id"/>
+                    </f:facet>
+                    <h:outputText value="#{produto.produtoEstoque.idProduto}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Código"/>
+                    </f:facet>
+                    <h:outputText value="#{produto.produtoEstoque.codigoProduto}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Nome"/>
+                    </f:facet>
+                    <h:outputText value="#{produto.produtoEstoque.nomeProduto}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Marca"/>
+                    </f:facet>
+                    <h:outputText value="#{produto.produtoEstoque.marcaProduto}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Preço Unit"/>
+                    </f:facet>
+                    <h:outputText value="#{produto.produtoEstoque.precoProduto}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Quantidade no Estoque"/>
+                    </f:facet>
+                    <h:outputText value="#{produto.quantidadeEstoque}"/>
+                </p:column>
+                <p:column style="width: 30px; text-align: center;">
+                    <p:commandButton icon="ui-icon-check" 
+                                     action="#{SelecionarEstoqueBean.selecionarProduto(produto)}" process="@this" title="Selecionar"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </h:body>
+</html>

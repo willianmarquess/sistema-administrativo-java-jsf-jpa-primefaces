@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:decorate template="/template/newTemplate.xhtml"
+             xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             xmlns:p="http://primefaces.org/ui">
+    <ui:define name="centro">
+        <h:form id="frm">
+            <div style="margin-top: 5px; margin-bottom: 20px;">
+                <p:breadCrumb>
+                <p:menuitem value="Home" url="index.xhtml" />
+                <p:menuitem value="Consultas" url="#" />
+                <p:menuitem value="Fornecedores" url="#" />
+                </p:breadCrumb><br/>
+                <p:fieldset legend="Tipo de Fornecedor">
+                    <p:selectOneRadio id="tipos" value="#{ListarFornecedorBean.tipo}">    
+                    <f:selectItem itemLabel="Ativo" itemValue="true"/>    
+                    <f:selectItem itemLabel="Inativo" itemValue="false"/>    
+                </p:selectOneRadio>
+                </p:fieldset><br/> 
+                <p:inputText id="campo" size="40" styleClass="up" value="#{ListarFornecedorBean.campo}" placeholder="Digite o parâmetro ..."/>
+                <p:commandButton value="Pesquisar" action="#{ListarFornecedorBean.listar}" update="@form"/>
+                <br/><br/>
+                <p:fieldset legend="Parâmetros">
+                    <p:selectOneRadio id="parametro" value="#{ListarFornecedorBean.parametro}">    
+                    <f:selectItem itemLabel="Todas" itemValue="todas"/>    
+                    <f:selectItem itemLabel="Razão Social / Nome" itemValue="razaopessoajuridica"/>
+                    <f:selectItem itemLabel="CNPJ" itemValue="cnpjpessoajuridica"/>
+                </p:selectOneRadio>
+                </p:fieldset>
+            </div>
+
+            <p:dataTable paginatorAlwaysVisible="false" value="#{ListarFornecedorBean.fornecedores}"
+                         var="fornecedor" paginator="true" rows="5"
+                         paginatorPosition="bottom" emptyMessage="Nenhuma pessoa encontrada...">
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Id"/>
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.idPessoa}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Razão Social / Nome"/>
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.razaoPessoaJuridica}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="CNPJ"/>
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.cnpjPessoaJuridica}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Endereço"/>
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.enderecoPessoa}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Cidade"/>
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.cidadePessoa.nomeCidade}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="CEP"/>
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.cepPessoa}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Telefone"/>
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.telefonePessoa}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Tipo"/>
+                    </f:facet>
+                    <h:outputText value="#{fornecedor.tipoPessoaJuridica}"/>
+                </p:column>
+               <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Status"/>
+                    </f:facet>
+                   <h:outputText rendered="#{fornecedor.statusPessoa == true}" value="Ativo"/>
+                   <h:outputText rendered="#{fornecedor.statusPessoa == false}" value="Inativo"/>
+                </p:column>
+                <p:column style="text-align: center">
+                    <p:button icon="ui-icon-pencil" title="Editar"
+                              outcome="/AlterarFornecedor">
+                        <f:param name="id" value="#{fornecedor.idPessoa}" />
+                    </p:button>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:decorate>

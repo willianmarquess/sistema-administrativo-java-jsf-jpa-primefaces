@@ -1,0 +1,35 @@
+a {
+    color: #007aff;
+    text-decoration: none;
+}
+a.logo {
+    font-size: 22px;
+    font-weight: 300;
+    color: #fed189;
+    float: left;
+    margin-top: 10px;
+    text-transform: uppercase;
+}
+a.logo:hover, a.logo:focus {
+    text-decoration: none;
+    outline: none;
+}
+.lite {
+    color: #00a0df !important;
+}
+.meio{
+    display: -ms-flex;
+    display: -webkit-flex;
+    display: flex;
+
+    /* centraliza na vertical */
+    -ms-align-items: center;
+    -webkit-align-items: center;
+    align-items: center;
+
+    /* centraliza na horizontal */
+    -ms-justify-content: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    color: #00a0df !important;
+}

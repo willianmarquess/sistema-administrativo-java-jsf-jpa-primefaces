@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:decorate template="/template/newTemplate.xhtml"
+             xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             xmlns:p="http://primefaces.org/ui">
+    <ui:define name="centro">
+        <h:form  id="frm" >
+            <p:messages autoUpdate="true" closable="true"/>
+            <p:growl id="growl" showDetail="true" sticky="true" />  
+            <p:breadCrumb>
+                <p:menuitem value="Home" url="index.xhtml" />
+                <p:menuitem value="Cadastros" url="#" />
+                <p:menuitem value="Cliente" url="#" />
+            </p:breadCrumb>  <br/>
+            <p:fieldset legend="Dados Cliente">
+                <h:panelGroup>
+                    <h:panelGrid columns="6">
+                        <p:outputLabel value="Nome Cliente" for="cliente"/>
+                        <p:outputLabel value="RG" for="rg"/>
+                        <p:outputLabel value="CPF" for="cpf"/>
+                        <p:outputLabel value="Cidade" for="cidade"/>
+                        <p:outputLabel value="Endereço" for="endereco"/><p:outputLabel />
+
+                        <p:inputText id="cliente" value="#{CadastrarVendaBean.nomeCliente}" required="true"
+                                     readonly="#{facesContext.currentPhaseId.name eq 'RENDER_RESPONSE'}" requiredMessage="Pesquise um CLIENTE" placeholder="Pesquise um CLIENTE"/>
+
+
+                        <p:inputText id="rg" value="#{CadastrarVendaBean.cliente.rgPessoaFisica}"
+                                     placeholder="Pesquise um CLIENTE" readonly="true"/>
+                        <p:inputText id="cpf" value="#{CadastrarVendaBean.cliente.cpfPessoaFisica}"
+                                     placeholder="Pesquise um CLIENTE" readonly="true"/>
+                        <p:inputText id="cidade" value="#{CadastrarVendaBean.cidade.nomeCidade}"
+                                     placeholder="Pesquise um CLIENTE" readonly="true"/>
+                        <p:inputText id="endereco" value="#{CadastrarVendaBean.cliente.enderecoPessoa}"
+                                     placeholder="Pesquise um CLIENTE" readonly="true"/>
+                        <p:commandButton icon="ui-icon-search" title="Pesquisar"
+                                         action="#{SelecionarClienteBean.abrirDialogo()}" process="@this" update="@none">
+                            <p:ajax event="dialogReturn" listener="#{CadastrarVendaBean.clienteSelecionado}" process="@this" update="cliente, rg, cpf, cidade, endereco"/>
+                        </p:commandButton>
+                    </h:panelGrid>
+                </h:panelGroup>
+            </p:fieldset>
+            <p:fieldset legend="Dados Produtos" >
+                <h:panelGroup>
+                    <h:panelGrid columns="7" id="tabela">
+
+                        <p:outputLabel value="Nome Produto" for="produto"></p:outputLabel>
+                        <p:outputLabel value="Marca" for="marca"></p:outputLabel>
+                        <p:outputLabel value="Preço" for="preco"></p:outputLabel>
+                        <p:outputLabel value="Quantidade Estoque" for="estoque"></p:outputLabel>
+                        <p:outputLabel  value="Quantidade Vendida" for="quantidade"></p:outputLabel><p:outputLabel /><p:outputLabel />
+
+                        <p:inputText placeholder="Pesquise um PRODUTO" id="produto" value="#{CadastrarVendaBean.produto.nomeProduto}"
+                                     readonly="true"/>
+
+                        <p:inputText  id="marca" value="#{CadastrarVendaBean.produto.marcaProduto}"
+                                      readonly="true"/>
+                        
+                        <p:inputText  id="preco" value="#{CadastrarVendaBean.produto.precoProduto}"
+                                      readonly="true"/>
+
+                        <p:inputText placeholder="Pesquise um PRODUTO" id="estoque" value="#{CadastrarVendaBean.estoque.quantidadeEstoque}"
+                                     readonly="true"/>
+
+                        <p:inputText type="number" id="quantidade" value="#{CadastrarVendaBean.item.quantidadeItem}"/>
+
+                        <p:commandButton icon="ui-icon-search" title="Pesquisar"
+                                         action="#{SelecionarEstoqueBean.abrirDialogo()}" process="@this" update="@none">
+                            <p:ajax event="dialogReturn" listener="#{CadastrarVendaBean.produtoSelecionado}" update="produto, marca, preco, quantidade, estoque"/>
+                        </p:commandButton>
+                        <p:commandButton value="Adicionar" actionListener="#{CadastrarVendaBean.adicionar()}" process="@this, quantidade, produto, marca, preco, estoque" update="produtos, quantidade, produto, marca, preco, estoque"/>
+
+                    </h:panelGrid>
+                </h:panelGroup><p:spacer/>
+
+
+                <p:dataTable paginatorAlwaysVisible="true" value="#{CadastrarVendaBean.itens}"
+                             var="item" paginator="true" rows="4" frozenRows="4" id="produtos"
+                             paginatorPosition="bottom" emptyMessage="Selecione um PRODUTO">
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Id Produto"/>
+                        </f:facet>
+                        <h:outputText value="#{item.produtoItem.idProduto}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Código"/>
+                        </f:facet>
+                        <h:outputText value="#{item.produtoItem.codigoProduto}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Nome"/>
+                        </f:facet>
+                        <h:outputText value="#{item.produtoItem.nomeProduto}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Marca/Referência"/>
+                        </f:facet>
+                        <h:outputText value="#{item.produtoItem.marcaProduto}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Preço Uni."/>
+                        </f:facet>
+                        <h:outputText rendered="#{item.totalParcialItem > 0}" value="R$ #{item.produtoItem.precoProduto}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Quantidade"/>
+                        </f:facet>
+                        <h:outputText value="#{item.quantidadeItem}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Valor Total"/>
+                        </f:facet>
+                        <h:outputText rendered="#{item.totalParcialItem > 0}" value="R$ #{item.totalParcialItem}"/>
+                    </p:column>
+                    <p:column style="text-align: center">
+                        <p:commandButton icon="ui-icon-trash" title="Excluir" process="@this"
+                                         rendered="#{item.totalParcialItem > 0}" update="produtos" action="#{CadastrarVendaBean.excluir}">
+                            <f:setPropertyActionListener value="#{item}"
+                                                         target="#{CadastrarVendaBean.itemSelecionado}" />
+                        </p:commandButton>
+                    </p:column>
+                    <p:columnGroup type="footer">
+                        <p:row>
+                            <p:column colspan="6" style="text-align:right" footerText="Total:" />
+                            <p:column footerText="$${CadastrarVendaBean.total}" />
+                        </p:row>
+                    </p:columnGroup>
+                </p:dataTable>
+            </p:fieldset>
+            <p:fieldset legend="Dados Venda">
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="Observação" for="observacao"/>
+                    <p:inputTextarea id="observacao" autoResize="true" styleClass="up" lang="pt-br" maxlength="100" required="true" requiredMessage="Digite o campo OBSERVAÇÃO corretamente"
+                                     value="#{CadastrarVendaBean.venda.observacaoVenda}"
+                                     />
+
+                    <p:outputLabel value="Forma de Pagamento" for="forma" />
+                    <p:selectOneMenu  required="true" requiredMessage="Selecione a forma de PAGAMENTO" value="#{CadastrarVendaBean.formaPagamentoVenda}"
+                                      id="forma">
+                        <f:selectItem itemLabel="Selecione" noSelectionOption="true" itemDisabled="true"/>
+                        <f:selectItem itemValue="0" itemLabel="Ávista(Dinheiro)"/>
+                        <f:selectItem itemValue="1" itemLabel="1x(Cartão)"/>
+                        <f:selectItem itemValue="2" itemLabel="2x(Cartão)"/>
+                        <f:selectItem itemValue="3" itemLabel="3x(Cartão)"/>
+                        <p:ajax process="@this" update="datapagamento" listener="#{CadastrarVendaBean.gerarDataPagamento()}"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel value="Data de Pagamento :" for="datapagamento"/>
+                    <p:inputText type="date" readonly="true"  required="true" requiredMessage="Selecione uma forma de Pagamento para gerar uma DATA PAGAMENTO" id="datapagamento"
+                                 value="#{CadastrarVendaBean.dataPagamento}"/>
+
+
+                    <p:commandButton value="Salvar" validateClient="true" actionListener="#{CadastrarVendaBean.salvar()}" 
+                                     update="@form" icon="ui-icon-disk">
+                        <p:confirm header="Confirmação" message="Deseja realmente salvar a Venda ?" icon="ui-icon-alert" />
+                    </p:commandButton>
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+                </p:panelGrid>
+            </p:fieldset>
+        </h:form>
+    </ui:define>
+</ui:decorate>

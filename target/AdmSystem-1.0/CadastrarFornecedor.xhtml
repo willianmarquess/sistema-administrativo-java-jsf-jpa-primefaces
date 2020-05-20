@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:decorate template="/template/newTemplate.xhtml"
+             xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             xmlns:p="http://primefaces.org/ui">
+    <ui:define name="centro">
+        <h:form  id="frm" >
+            <p:messages autoUpdate="true" closable="true"/>
+            <p:growl id="growl" showDetail="true" sticky="true" />  
+            <p:breadCrumb>
+                <p:menuitem value="Home" url="index.xhtml" />
+                <p:menuitem value="Cadastros" url="#" />
+                <p:menuitem value="Fornecedor" url="#" />
+            </p:breadCrumb>  <br/>
+            <p:panelGrid  columns="2">
+
+                <p:outputLabel value="Razão Social/Nome Fantasia :" />
+                <p:inputText size="20" required="true" requiredMessage="Digite o campo RAZÃO SOCIAL/NOME corretamente"
+                             maxlength="100" styleClass="up"  value="#{CadastrarFornecedorBean.fornecedor.razaoPessoaJuridica}"/>
+
+
+                <p:outputLabel value="CNPJ :" />
+                <p:inputMask size="20" required="true" requiredMessage="Digite o campo CNPJ corretamente"
+                             value="#{CadastrarFornecedorBean.fornecedor.cnpjPessoaJuridica}"
+                             mask="99.999.999/9999-99" />
+
+                <p:outputLabel value="Cidade" for="cidade"/>
+                <h:panelGroup>
+                    <p:inputText required="true" requiredMessage="Selecione uma CIDADE" id="cidade" value="#{CadastrarFornecedorBean.nomeCidade}"
+                                 readonly="#{facesContext.currentPhaseId.name eq 'RENDER_RESPONSE'}"/>
+                    <p:commandButton icon="ui-icon-search" title="Pesquisar"
+                                     action="#{SelecionarCidadeBean.abrirDialogo()}" process="@this" update="@none">
+                        <p:ajax event="dialogReturn" listener="#{CadastrarFornecedorBean.cidadeSelecionada}" process="@this" update="cidade"/>
+                    </p:commandButton>
+                </h:panelGroup>
+
+
+                <p:outputLabel value="CEP :" />
+                <p:inputMask size="10" required="true" requiredMessage="Digite o campo CEP corretamente"
+                             value="#{CadastrarFornecedorBean.fornecedor.cepPessoa}"
+                             mask="99.999-999" />
+
+
+                <p:outputLabel value="Endereço :" />
+                <p:inputTextarea autoResize="true" styleClass="up" lang="pt-br"  placeholder="Digite a RUA, BAIRRO e NÚMERO" maxlength="100" required="true" requiredMessage="Digite o campo Endereço corretamente"
+                                 value="#{CadastrarFornecedorBean.fornecedor.enderecoPessoa}"
+                                 />
+
+                <p:outputLabel value="Telefone :" />
+                <p:inputMask size="20" required="true" requiredMessage="Digite o campo TELEFONE corretamente"
+                             value="#{CadastrarFornecedorBean.fornecedor.telefonePessoa}"
+                             mask="(99)9999-9999" />
+
+
+                <p:outputLabel value="Celular :" />
+                <p:inputMask size="20" required="true" requiredMessage="Digite o campo TELEFONE corretamente"
+                             value="#{CadastrarFornecedorBean.fornecedor.celularPessoa}"
+                             mask="(99)99999-9999" />
+                
+                <p:commandButton value="Salvar" validateClient="true" actionListener="#{CadastrarFornecedorBean.salvar()}" 
+                                 update="@form" icon="ui-icon-disk">
+                    <p:confirm header="Confirmação" message="Deseja realmente salvar o fornecedor ?" icon="ui-icon-alert" />
+                </p:commandButton>
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
+            </p:panelGrid>
+        </h:form>
+    </ui:define>
+</ui:decorate>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:decorate template="/template/newTemplate.xhtml"
+             xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             xmlns:p="http://primefaces.org/ui">
+    <ui:define name="centro">
+        <h:form id="frm">
+            <div style="margin-top: 5px; margin-bottom: 20px;">
+                <p:breadCrumb>
+                <p:menuitem value="Home" url="index.xhtml" />
+                <p:menuitem value="Consultas" url="#" />
+                <p:menuitem value="Empresas" url="#" />
+                </p:breadCrumb><br/>
+                <p:fieldset legend="Tipo de Empresa">
+                <p:selectOneRadio id="tipos" value="#{ListarEmpresaBean.tipo}">    
+                    <f:selectItem itemLabel="Ativo" itemValue="true"/>    
+                    <f:selectItem itemLabel="Inativo" itemValue="false"/>    
+                </p:selectOneRadio>
+                </p:fieldset><br/>    
+                <p:inputText id="campo" size="40" styleClass="up" value="#{ListarEmpresaBean.campo}" placeholder="Digite o parâmetro ..."/>
+                <p:commandButton value="Pesquisar" action="#{ListarEmpresaBean.listar}" update="@form"/>
+                <br/><br/>
+                <p:fieldset legend="Parâmetros">
+                    <p:selectOneRadio id="parametro" value="#{ListarEmpresaBean.parametro}">    
+                    <f:selectItem itemLabel="Todas" itemValue="todas"/>    
+                    <f:selectItem itemLabel="Razão Social / Nome" itemValue="razaopessoajuridica"/>
+                    <f:selectItem itemLabel="CNPJ" itemValue="cnpjpessoajuridica"/>
+                    </p:selectOneRadio>
+                </p:fieldset>
+            </div>
+
+            <p:dataTable paginatorAlwaysVisible="false" value="#{ListarEmpresaBean.empresas}"
+                         var="empresa" paginator="true" rows="5"
+                         paginatorPosition="bottom" emptyMessage="Nenhuma pessoa encontrada...">
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Id"/>
+                    </f:facet>
+                    <h:outputText value="#{empresa.idPessoa}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Razão Social / Nome Fantasia"/>
+                    </f:facet>
+                    <h:outputText value="#{empresa.razaoPessoaJuridica}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="CNPJ"/>
+                    </f:facet>
+                    <h:outputText value="#{empresa.cnpjPessoaJuridica}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Endereço"/>
+                    </f:facet>
+                    <h:outputText value="#{empresa.enderecoPessoa}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Cidade"/>
+                    </f:facet>
+                    <h:outputText value="#{empresa.cidadePessoa.nomeCidade}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="CEP"/>
+                    </f:facet>
+                    <h:outputText value="#{empresa.cepPessoa}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Telefone"/>
+                    </f:facet>
+                    <h:outputText value="#{empresa.telefonePessoa}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Tipo"/>
+                    </f:facet>
+                    <h:outputText value="#{empresa.tipoPessoaJuridica}"/>
+                </p:column>
+               <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Status"/>
+                    </f:facet>
+                   <h:outputText rendered="#{empresa.statusPessoa == true}" value="Ativo"/>
+                   <h:outputText rendered="#{empresa.statusPessoa == false}" value="Inativo"/>
+                </p:column>
+                <p:column style="text-align: center">
+                    <p:button icon="ui-icon-pencil" title="Editar"
+                              outcome="/AlterarEmpresa">
+                        <f:param name="id" value="#{empresa.idPessoa}" />
+                    </p:button>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:decorate>

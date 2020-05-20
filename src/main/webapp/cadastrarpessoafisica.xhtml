@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:decorate template="/template/newTemplate.xhtml"
+             xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             xmlns:p="http://primefaces.org/ui">
+    <ui:define name="centro">
+        <h:form  id="frm" >
+            <p:messages autoUpdate="true" closable="true"/>
+            <p:growl id="growl" showDetail="true" sticky="true" />  
+
+            <p:fieldset legend="Dados Pessoa">
+                <p:panelGrid  columns="2">
+                    <h:outputLabel value="Tipo de pessoa:" />
+                    <p:selectOneRadio id="tipos" value="#{CadastrarPessoaFisicaBean.tipoPessoa}">    
+                        <f:selectItem itemLabel="Cliente" itemValue="cliente"/>    
+                        <f:selectItem itemLabel="Funcionário" itemValue="funcionario"/>    
+                        <f:ajax render="panelGeral" execute="tipos"/>
+
+
+                    </p:selectOneRadio>
+                    <p:outputLabel value="Nome :" />
+                    <p:inputText size="20" required="true" requiredMessage="Digite o campo NOME corretamente"
+                                 maxlength="100" placeholder="Digite o NOME completo"    value="#{CadastrarPessoaFisicaBean.pessoaFisica.nomePessoaFisica}"/>
+
+
+                    <p:outputLabel value="RG :" />
+                    <p:inputText size="20" required="true" requiredMessage="Digite o campo RG corretamente"
+                                 value="#{CadastrarPessoaFisicaBean.pessoaFisica.rgPessoaFisica}"
+                                 />
+
+
+                    <p:outputLabel value="CPF :" />
+                    <p:inputMask size="15" required="true" requiredMessage="Digite o campo CPF corretamente"
+                                 value="#{CadastrarPessoaFisicaBean.pessoaFisica.cpfPessoaFisica}"
+                                  mask="999.999.999-99" />
+
+
+                    <p:outputLabel value="Data de Nascimento :" />
+                    <p:calendar mask="true" locale="pt" showButtonPanel="true" navigator="true" required="true" requiredMessage="Digite o campo DATA NASCIMENTO corretamente"
+                                value="#{CadastrarPessoaFisicaBean.pessoaFisica.dataNascPessoaFisica}">
+                    </p:calendar>
+
+
+                    <p:outputLabel value="Cidade" for="cidade"/>
+                    <h:panelGroup>
+                        <p:inputText required="true" requiredMessage="Selecione uma CIDADE" id="cidade" value="#{CadastrarPessoaFisicaBean.nomeCidade}"
+                                     readonly="#{facesContext.currentPhaseId.name eq 'RENDER_RESPONSE'}"/>
+                        <p:commandButton icon="ui-icon-search" title="Pesquisar"
+                                         action="#{SelecionarCidadeBean.abrirDialogo()}" process="@this" update="@none">
+                            <p:ajax event="dialogReturn" listener="#{CadastrarPessoaFisicaBean.cidadeSelecionada}" process="@this" update="cidade"/>
+                        </p:commandButton>
+                    </h:panelGroup>
+
+
+                    <p:outputLabel value="CEP :" />
+                    <p:inputMask size="10" required="true" requiredMessage="Digite o campo CEP corretamente"
+                                 value="#{CadastrarPessoaFisicaBean.pessoaFisica.cepPessoa}"
+                                 mask="99.999-999" />
+
+
+                    <p:outputLabel value="Endereço :" />
+                    <p:inputTextarea autoResize="true" lang="pt-br"  placeholder="Digite a RUA, BAIRRO e NÚMERO" maxlength="100" required="true" requiredMessage="Digite o campo Endereço corretamente"
+                                      value="#{CadastrarPessoaFisicaBean.pessoaFisica.enderecoPessoa}"
+                                     />
+
+                    <p:outputLabel value="Telefone :" />
+                    <p:inputMask size="20" required="true" requiredMessage="Digite o campo TELEFONE corretamente"
+                                 value="#{CadastrarPessoaFisicaBean.pessoaFisica.telefonePessoa}"
+                                 mask="(99)9999-9999" />
+
+
+                    <p:outputLabel value="Celular :" />
+                    <p:inputMask size="20" required="true" requiredMessage="Digite o campo TELEFONE corretamente"
+                                 value="#{CadastrarPessoaFisicaBean.pessoaFisica.celularPessoa}"
+                                 mask="(99)99999-9999" />
+
+
+                    <h:outputLabel value="Sexo :" />
+                    <p:selectOneRadio required="true" requiredMessage="Selecione um sexo"
+                                      value="#{CadastrarPessoaFisicaBean.pessoaFisica.sexoPessoaFisica}">
+                        <f:selectItem itemLabel="Masculino"
+                                      value="#{CadastrarPessoaFisicaBean.pessoaFisica.sexoPessoaFisica}"
+                                      itemValue="masculino" />
+                        <f:selectItem itemLabel="Feminino" 
+                                      value="#{CadastrarPessoaFisicaBean.pessoaFisica.sexoPessoaFisica}"
+                                      itemValue="feminino" />
+                    </p:selectOneRadio>
+
+                </p:panelGrid>
+            </p:fieldset>
+
+
+            <p:outputPanel id="panelGeral">
+                <p:fieldset legend="Dados Funcionário" rendered="#{CadastrarPessoaFisicaBean.tipoPessoa == 'funcionario'}">
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="Salário :" rendered="#{CadastrarPessoaFisicaBean.tipoPessoa == 'funcionario'}"/>
+                        <p:inputText type="number" size="12" rendered="#{CadastrarPessoaFisicaBean.tipoPessoa == 'funcionario'}"
+                                     value="#{CadastrarPessoaFisicaBean.pessoaFisica.salarioPessoaFisica}">
+                            <f:convertNumber locale="pt_BR" maxFractionDigits="2"
+                                             minFractionDigits="2" />
+                        </p:inputText>
+                        <p:outputLabel value="Cargo :" rendered="#{CadastrarPessoaFisicaBean.tipoPessoa == 'funcionario'}"/>
+                        <p:inputText  size="20" rendered="#{CadastrarPessoaFisicaBean.tipoPessoa == 'funcionario'}"
+                                      value="#{CadastrarPessoaFisicaBean.pessoaFisica.cargoPessoaFisica}">
+                        </p:inputText>
+                    </p:panelGrid>
+                </p:fieldset>
+            </p:outputPanel>
+
+
+            <p:panelGrid columns="2">
+                <p:commandButton value="Salvar" validateClient="true" actionListener="#{CadastrarPessoaFisicaBean.salvar()}" 
+                                 update="@form" icon="ui-icon-disk">
+                    <p:confirm header="Confirmação" message="Deseja salvar os dados digitados ?" icon="ui-icon-alert" />
+                </p:commandButton>
+             </p:panelGrid>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+
+
+        </h:form>
+    </ui:define>
+</ui:decorate>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:decorate template="/template/newTemplate.xhtml"
+             xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             xmlns:p="http://primefaces.org/ui">
+    <ui:define name="centro">
+        <h:form id="frm">
+            <div style="margin-top: 5px; margin-bottom: 20px;">
+                
+                <p:selectOneRadio id="tipos" value="#{ListarPessoaFisicaBean.tipo}">    
+                    <f:selectItem itemLabel="Cliente" itemValue="cliente"/>    
+                    <f:selectItem itemLabel="Funcionário" itemValue="funcionario"/>    
+                </p:selectOneRadio>
+                <p:inputText id="campo" styleClass="up" size="40" value="#{ListarPessoaFisicaBean.campo}" placeholder="Digite o parâmetro ..."/>
+                <p:commandButton value="Pesquisar" action="#{ListarPessoaFisicaBean.listar}" update="@form"/>
+                <br/><br/>
+                <p:fieldset legend="Parâmetros">
+                    <p:selectOneRadio id="parametro" value="#{ListarPessoaFisicaBean.parametro}">    
+                    <f:selectItem itemLabel="Todas" itemValue="todas"/>    
+                    <f:selectItem itemLabel="Nome" itemValue="nomepessoafisica"/>
+                    <f:selectItem itemLabel="CPF" itemValue="cpfpessoafisica"/>
+                </p:selectOneRadio>
+                </p:fieldset>
+            </div>
+
+            <p:dataTable paginatorAlwaysVisible="false" value="#{ListarPessoaFisicaBean.pessoas}"
+                         var="pessoa" paginator="true" rows="5"
+                         paginatorPosition="bottom" emptyMessage="Nenhuma pessoa encontrada...">
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Id"/>
+                    </f:facet>
+                    <h:outputText value="#{pessoa.idPessoa}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Nome"/>
+                    </f:facet>
+                    <h:outputText value="#{pessoa.nomePessoaFisica}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="RG"/>
+                    </f:facet>
+                    <h:outputText value="#{pessoa.rgPessoaFisica}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="CPF"/>
+                    </f:facet>
+                    <h:outputText value="#{pessoa.cpfPessoaFisica}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Endereço"/>
+                    </f:facet>
+                    <h:outputText value="#{pessoa.enderecoPessoa}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Cidade"/>
+                    </f:facet>
+                    <h:outputText value="#{pessoa.cidadePessoa.nomeCidade}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="CEP"/>
+                    </f:facet>
+                    <h:outputText value="#{pessoa.cepPessoa}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Telefone"/>
+                    </f:facet>
+                    <h:outputText value="#{pessoa.telefonePessoa}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Tipo de Pessoa"/>
+                    </f:facet>
+                    <h:outputText value="#{pessoa.tipoPessoaFisica}"/>
+                </p:column>
+                <p:column rendered="#{ListarPessoaFisicaBean.tipo == 'funcionario'}">
+                    <f:facet name="header">
+                        <h:outputText value="Cargo"/>
+                    </f:facet>
+                    <h:outputText value="#{pessoa.cargoPessoaFisica}"/>
+                </p:column>
+                <p:column rendered="#{ListarPessoaFisicaBean.tipo == 'funcionario'}">
+                    <f:facet name="header">
+                        <h:outputText value="Salario"/>
+                    </f:facet>
+                    <h:outputText value="#{pessoa.salarioPessoaFisica}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Status"/>
+                    </f:facet>
+                    <h:outputText rendered="#{pessoa.statusPessoa == true}" value="Ativo"/>
+                    <h:outputText rendered="#{pessoa.statusPessoa == false}" value="Inativo"/>
+                </p:column>
+                <p:column style="text-align: center">
+                    <p:button icon="ui-icon-pencil" title="Editar"
+                              outcome="/AlterarPessoaFisica">
+                        <f:param name="id" value="#{pessoa.idPessoa}" />
+                    </p:button>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:decorate>
